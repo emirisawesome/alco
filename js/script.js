@@ -79,6 +79,12 @@ const displayLookup = async (data) => {
     cocktailInstructions.innerHTML = `<h4>Инструкция:</h4> <p class='cocktailInstructionsPor'>${data.strInstructions}</p>`
     card.append(cocktailInstructions)
 
+    let backButton = document.createElement('button')
+    backButton.innerHTML = '< Назад'
+    backButton.className = 'backButton'
+    card.append(backButton)
+    backButton.addEventListener('click', getAllCocktails)
+
 }
 
 const getAllCocktails = async () => {
