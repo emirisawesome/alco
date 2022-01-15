@@ -166,3 +166,37 @@ body{
     margin: 7px 0;
 
 }
+
+.cocktailIngredients{
+  display: flex;
+  
+}
+.cocktailIngredients li {
+  padding: 8px;
+  border-radius: 50px;
+  border: 1px solid #8b949e;
+  margin: 0 8px 8px 0;
+  cursor: pointer;
+
+}
+
+.ingridientCard{
+  background-color: #21262d;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.ingridientTitle{
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.ingridientABV{
+  margin: 0 0 8px 0;
+
+}
+
+.ingridientDescription{
+  line-height: 1.3;
+}

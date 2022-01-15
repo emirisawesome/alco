@@ -3,6 +3,7 @@
 
 const API = 'https://www.thecocktaildb.com/api/json/v1/1/'
 const SEARCH = 'search.php?s='
+const SEARCH_I = 'search.php?i='
 const GET_ALL_COCKTAILS = `${API}filter.php?c=Cocktail`
 const FILTER_BY_ALCOHOLIC = 'filter.php?a='
 const LOOKUP_COCKTAIL_DETAIL = 'lookup.php?i='
@@ -79,12 +80,70 @@ const displayLookup = async (data) => {
     cocktailInstructions.innerHTML = `<h4>Инструкция:</h4> <p class='cocktailInstructionsPor'>${data.strInstructions}</p>`
     card.append(cocktailInstructions)
 
+    let cocktailIngredients = document.createElement('ul')
+    cocktailIngredients.className = 'cocktailIngredients'
+    card.append(cocktailIngredients)
+
+
+    for (const key in data) {
+        if (key.includes('strIngredient') && data[key] != null && data[key] != "") {
+            let ingredient = document.createElement('li')
+            ingredient.innerHTML = data[key]
+            ingredient.addEventListener('click', () => {
+                console.log(data[key]);
+                getIngridientByName(data[key])
+            })
+            cocktailIngredients.append(ingredient)
+        }
+    }
+
+    const ingridientCard = document.createElement('div')
+    ingridientCard.className = 'ingridientCard'
+    card.append(ingridientCard)
+
+
     let backButton = document.createElement('button')
     backButton.innerHTML = '< Назад'
     backButton.className = 'backButton'
     card.append(backButton)
     backButton.addEventListener('click', getAllCocktails)
 
+}
+
+const displayLookupIngridient = (data) => {
+
+    const ingridientCard = document.querySelector('.ingridientCard')
+
+    const ingridientCardInner = document.createElement('div')
+    ingridientCardInner.className = 'ingridientCard'
+    ingridientCard.innerHTML = ingridientCardInner
+    ingridientCard.replaceWith(ingridientCardInner)
+
+    const ingridientTitle = document.createElement('h3')
+    ingridientTitle.className = 'ingridientTitle'
+    ingridientTitle.innerHTML = data.strIngredient
+    ingridientCardInner.append(ingridientTitle)
+
+    const ingridientABV = document.createElement('p')
+    ingridientABV.className = 'ingridientABV'
+    ingridientABV.innerHTML = `Градус: ${data.strABV ? data.strABV + '%' : ' ХЗ'}`
+    ingridientCardInner.append(ingridientABV)
+
+    const ingridientDescription = document.createElement('p')
+    ingridientDescription.className = 'ingridientDescription'
+    ingridientDescription.innerHTML = `Описание:${data.strDescription ? data.strDescription : ' нету млять'}`
+    ingridientCardInner.append(ingridientDescription)
+
+}
+
+
+
+const getIngridientByName = async (name) => {
+    const request = await fetch(`${API}${SEARCH_I}${name}`)
+    const response = await request.json()
+    console.log(response.ingredients[0]);
+
+    displayLookupIngridient(response.ingredients[0])
 }
 
 const getAllCocktails = async () => {
